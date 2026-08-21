@@ -8,6 +8,14 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
   Plus, Trash2, ExternalLink, Upload, Image as ImageIcon,
   Globe, Palette, Clock, Share2, Shield, MessageSquare, Camera, LayoutTemplate,
   BarChart3, Sparkle, UserRound, Quote, Receipt, HelpCircle, MapPin, Megaphone,
@@ -104,6 +112,15 @@ export default function WebsiteSettingsPage() {
   const get = (key: keyof SiteSettings) => (form[key] as string) ?? (settings as any)?.[key] ?? "";
 
   const set = (key: keyof SiteSettings, value: string) => setForm({ ...form, [key]: value });
+
+  const getBool = (key: keyof SiteSettings, fallback = false) => {
+    const value = (form[key] as unknown) ?? (settings as any)?.[key];
+    return value === undefined || value === null ? fallback : Boolean(value);
+  };
+
+  const setBool = (key: keyof SiteSettings, value: boolean) =>
+    setForm({ ...form, [key]: value } as Partial<SiteSettings>);
+
 
   const publicSiteUrl = clinicSettings?.slug
     ? `${window.location.origin}/site/${clinicSettings.slug}`
